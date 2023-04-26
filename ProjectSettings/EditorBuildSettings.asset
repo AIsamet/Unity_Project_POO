@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Menu/GameMenu.unity
     guid: c2ef24eb2a9087e4e83fa8c95753395b
   - enabled: 1
-    path: Assets/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity
-    guid: d2809ab9b90eea7419d8d90d4c505d35
-  - enabled: 1
-    path: Assets/Scenes/GameScene.unity
-    guid: a39ef1f47a0846b4684b62ae63119739
+    path: Assets/Low Poly City Asset/DemoScenes/Demoscene1.unity
+    guid: 5f5fdafef28ad3f40bc5317338336584
   m_configObjects: {}
