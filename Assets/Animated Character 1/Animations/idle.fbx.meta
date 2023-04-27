@@ -362,7 +362,7 @@ ModelImporter:
     second: Root|0.Targeting Pose
   - first:
       74: 7400002
-    second: Root|Idle
+    second: idle
   - first:
       95: 9500000
     second: //RootNode
@@ -396,7 +396,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Root|Idle
+      name: idle
       takeName: Root|Idle
       internalID: 0
       firstFrame: 0
