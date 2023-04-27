@@ -1217,13 +1217,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1470759983}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 702b99569b617894fb6ebc4edafbed6a, type: 3}
+  m_Script: {fileID: 11500000, guid: e8aa13dc16e5f3c4fb92c6ecf43f05f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayServerButton: {fileID: 419294701}
-  PlayHostButton: {fileID: 610174541}
-  PlayClientButton: {fileID: 860104531}
-  nm: {fileID: 3128980039328053349, guid: 7904ec8b78985a140af9857421cf30ff, type: 3}
+  startServerButton: {fileID: 419294701}
+  startHostButton: {fileID: 610174541}
+  startClientButton: {fileID: 860104531}
+  playersInGameText: {fileID: 0}
+  joinCodeInput: {fileID: 0}
+  executePhysicsButton: {fileID: 0}
 --- !u!1 &1681878732
 GameObject:
   m_ObjectHideFlags: 0
