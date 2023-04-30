@@ -11,7 +11,7 @@ public class PlayerControl : NetworkBehaviour
     private float runSpeedOffset = 2.0f;
 
     [SerializeField]
-    private float rotationSpeed = 3.5f;
+    private float strafeSpeed = 3.0f;
 
     [SerializeField]
     private Vector2 defaultInitialPositionOnPlane = new Vector2(-4, 4);
@@ -20,16 +20,12 @@ public class PlayerControl : NetworkBehaviour
     private NetworkVariable<Vector3> networkPositionDirection = new NetworkVariable<Vector3>();
 
     [SerializeField]
-    private NetworkVariable<Vector3> networkRotationDirection = new NetworkVariable<Vector3>();
-
-    [SerializeField]
     private NetworkVariable<PlayerState> networkPlayerState = new NetworkVariable<PlayerState>();
 
     private CharacterController characterController;
 
     // client caches positions
     private Vector3 oldInputPosition = Vector3.zero;
-    private Vector3 oldInputRotation = Vector3.zero;
     private PlayerState oldPlayerState = PlayerState.Idle;
 
     private Animator animator;
@@ -56,19 +52,15 @@ public class PlayerControl : NetworkBehaviour
             ClientInput();
         }
 
-        ClientMoveAndRotate();
+        ClientMove();
         ClientVisuals();
     }
 
-    private void ClientMoveAndRotate()
+    private void ClientMove()
     {
         if (networkPositionDirection.Value != Vector3.zero)
         {
             characterController.SimpleMove(networkPositionDirection.Value);
-        }
-        if (networkRotationDirection.Value != Vector3.zero)
-        {
-            transform.Rotate(networkRotationDirection.Value, Space.World);
         }
     }
 
@@ -83,46 +75,49 @@ public class PlayerControl : NetworkBehaviour
 
     private void ClientInput()
     {
-        // left & right rotation
-        Vector3 inputRotation = new Vector3(0, Input.GetAxis("Horizontal"), 0);
-
-        // forward & backward direction
-        Vector3 direction = transform.TransformDirection(Vector3.forward);
+        // left & right strafing
+        float strafeInput = Input.GetAxis("Horizontal");
         float forwardInput = Input.GetAxis("Vertical");
-        Vector3 inputPosition = direction * forwardInput;
 
-        // change animation states
-        if (forwardInput == 0)
-            UpdatePlayerStateServerRpc(PlayerState.Idle);
-        else if (!ActiveRunningActionKey() && forwardInput > 0 && forwardInput <= 1)
-            UpdatePlayerStateServerRpc(PlayerState.Walk);
-        else if (ActiveRunningActionKey() && forwardInput > 0 && forwardInput <= 1)
+        // Calculate movement in the horizontal and vertical directions separately
+        Vector3 horizontalMovement = transform.right * strafeInput * strafeSpeed;
+        Vector3 verticalMovement = transform.forward * forwardInput * walkSpeed;
+
+        // Combine the horizontal and vertical movement vectors to get the final movement vector
+        Vector3 inputPosition = horizontalMovement + verticalMovement;
+
+        // Update the player state based on the magnitude of the movement vector
+        if (inputPosition.magnitude > 0)
         {
-            inputPosition = direction * runSpeedOffset;
-            UpdatePlayerStateServerRpc(PlayerState.Run);
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                inputPosition *= runSpeedOffset;
+                UpdatePlayerStateServerRpc(PlayerState.Run);
+            }
+            else
+            {
+                UpdatePlayerStateServerRpc(PlayerState.Walk);
+            }
         }
-        else if (forwardInput < 0)
-            UpdatePlayerStateServerRpc(PlayerState.ReverseWalk);
+        else
+        {
+            UpdatePlayerStateServerRpc(PlayerState.Idle);
+        }
 
-        // let server know about position and rotation client changes
-        if (oldInputPosition != inputPosition ||
-            oldInputRotation != inputRotation)
+        // Let the server know about client position changes
+        if (oldInputPosition != inputPosition)
         {
             oldInputPosition = inputPosition;
-            UpdateClientPositionAndRotationServerRpc(inputPosition * walkSpeed, inputRotation * rotationSpeed);
+            UpdateClientPositionServerRpc(inputPosition);
         }
     }
 
-    private static bool ActiveRunningActionKey()
-    {
-        return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-    }
+
 
     [ServerRpc]
-    public void UpdateClientPositionAndRotationServerRpc(Vector3 newPosition, Vector3 newRotation)
+    public void UpdateClientPositionServerRpc(Vector3 newPosition)
     {
         networkPositionDirection.Value = newPosition;
-        networkRotationDirection.Value = newRotation;
     }
 
     [ServerRpc]
