@@ -100,6 +100,9 @@ public class PlayerControlAuthorative : NetworkBehaviour
         float forwardInput = Input.GetAxis("Vertical");
         Vector3 forwardMovement = direction * forwardInput;
 
+        //Jump
+        bool jumpInput = Input.GetKeyDown(KeyCode.Space);
+
         // change animation states
         if (forwardInput == 0)
             UpdatePlayerStateServerRpc(PlayerState.Idle);
@@ -114,8 +117,9 @@ public class PlayerControlAuthorative : NetworkBehaviour
         }
         else if (forwardInput < 0)
             UpdatePlayerStateServerRpc(PlayerState.ReverseWalk);
-        if (Input.GetButtonDown("Jump"))
+        if (jumpInput == true)
         {
+            UpdatePlayerStateServerRpc(PlayerState.Jump);
             Jump();
         }
 
