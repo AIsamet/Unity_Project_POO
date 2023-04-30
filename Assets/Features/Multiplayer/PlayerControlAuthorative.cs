@@ -13,7 +13,7 @@ public class PlayerControlAuthorative : NetworkBehaviour
     private float runSpeedOffset = 2.0f;
 
     [SerializeField]
-    private float rotationSpeed = 3.5f;
+    private float lateralSpeed = 3.0f;
 
     [SerializeField]
     private Vector2 defaultInitialPositionOnPlane = new Vector2(-4, 4);
@@ -67,30 +67,38 @@ public class PlayerControlAuthorative : NetworkBehaviour
     private void ClientInput()
     {
         // y axis client rotation
-        Vector3 inputRotation = new Vector3(0, Input.GetAxis("Horizontal"), 0);
+        Vector3 inputRotation = Vector3.zero;
+
+        // horizontal direction
+        Vector3 horizontalDirection = transform.TransformDirection(Vector3.right);
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        Vector3 horizontalMovement = horizontalDirection * horizontalInput;
 
         // forward & backward direction
         Vector3 direction = transform.TransformDirection(Vector3.forward);
         float forwardInput = Input.GetAxis("Vertical");
-        Vector3 inputPosition = direction * forwardInput;
+        Vector3 forwardMovement = direction * forwardInput;
 
         // change animation states
         if (forwardInput == 0)
             UpdatePlayerStateServerRpc(PlayerState.Idle);
-        else if (!ActiveRunningActionKey() && forwardInput > 0 && forwardInput <= 1)
+        if(horizontalInput != 0 && forwardInput == 0)
             UpdatePlayerStateServerRpc(PlayerState.Walk);
-        else if (ActiveRunningActionKey() && forwardInput > 0 && forwardInput <= 1)
+        else if (forwardInput > 0 && forwardInput <= 1 && !ActiveRunningActionKey())
+            UpdatePlayerStateServerRpc(PlayerState.Walk);
+        else if (forwardInput > 0 && ActiveRunningActionKey())
         {
-            inputPosition = direction * runSpeedOffset;
+            forwardMovement = direction * (walkSpeed + runSpeedOffset);
             UpdatePlayerStateServerRpc(PlayerState.Run);
         }
         else if (forwardInput < 0)
             UpdatePlayerStateServerRpc(PlayerState.ReverseWalk);
 
         // client is responsible for moving itself
-        characterController.SimpleMove(inputPosition * walkSpeed);
-        transform.Rotate(inputRotation * rotationSpeed, Space.World);
+        Vector3 movement = (horizontalMovement + forwardMovement) * walkSpeed;
+        characterController.SimpleMove(movement);
     }
+
     private static bool ActiveRunningActionKey()
     {
         return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);

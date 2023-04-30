@@ -2026,6 +2026,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2081459491554716271}
+  - component: {fileID: 7257761326270993964}
   m_Layer: 0
   m_Name: PlayerCameraRoot
   m_TagString: CinemachineTarget
@@ -2048,6 +2049,21 @@ Transform:
   m_Father: {fileID: 5739110182789133639}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7257761326270993964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698720329760882656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1cd9db19de0c1478b04c8ddf3aa941, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 5739110182789133639}
+  mouseSensitivity: 500
+  maxVerticalAngle: 80
 --- !u!1 &2821785850453317847
 GameObject:
   m_ObjectHideFlags: 0
@@ -2490,8 +2506,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 3
-  runSpeedOffset: 2
-  rotationSpeed: 1.5
+  runSpeedOffset: -1
+  lateralSpeed: -1
   defaultInitialPositionOnPlane: {x: 0, y: 0}
   networkPlayerState:
     m_InternalValue: 0
