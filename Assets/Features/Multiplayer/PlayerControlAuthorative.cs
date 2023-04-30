@@ -16,6 +16,14 @@ public class PlayerControlAuthorative : NetworkBehaviour
     private float lateralSpeed = 3.0f;
 
     [SerializeField]
+    private float jumpSpeed = 8.0f;
+
+    [SerializeField]
+    private float gravity = 20.0f;
+
+    private Vector3 moveDirection = Vector3.zero;
+
+    [SerializeField]
     private Vector2 defaultInitialPositionOnPlane = new Vector2(-4, 4);
 
     [SerializeField]
@@ -39,7 +47,7 @@ public class PlayerControlAuthorative : NetworkBehaviour
         if (IsClient && IsOwner)
         {
             transform.position = new Vector3(Random.Range(defaultInitialPositionOnPlane.x, defaultInitialPositionOnPlane.y), 0,
-                   Random.Range(defaultInitialPositionOnPlane.x, defaultInitialPositionOnPlane.y));
+            Random.Range(defaultInitialPositionOnPlane.x, defaultInitialPositionOnPlane.y));
             PlayerCameraFollow.Instance.FollowPlayer(transform.Find("PlayerCameraRoot"));
         }
     }
@@ -50,10 +58,23 @@ public class PlayerControlAuthorative : NetworkBehaviour
         {
             ClientInput();
         }
-
         ClientVisuals();
     }
 
+    private void Jump()
+    {
+        if (characterController.isGrounded)
+        {
+            // saut
+            moveDirection.y = jumpSpeed;
+            UpdatePlayerStateServerRpc(PlayerState.Jump);
+        }
+        else
+        {
+            // si le joueur n'est pas au sol, le saut n'est pas possible
+            return;
+        }
+    }
 
     private void ClientVisuals()
     {
@@ -93,10 +114,18 @@ public class PlayerControlAuthorative : NetworkBehaviour
         }
         else if (forwardInput < 0)
             UpdatePlayerStateServerRpc(PlayerState.ReverseWalk);
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
 
         // client is responsible for moving itself
-        Vector3 movement = (horizontalMovement + forwardMovement) * walkSpeed;
-        characterController.SimpleMove(movement);
+        // appliquer la gravité
+        moveDirection.y -= gravity * Time.deltaTime;
+
+        // mouvement
+        Vector3 movement = (horizontalMovement + forwardMovement) * walkSpeed + moveDirection;
+        characterController.Move(movement * Time.deltaTime);
     }
 
     private static bool ActiveRunningActionKey()

@@ -2352,7 +2352,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.45, z: 0}
+  m_Center: {x: 0, y: 0.51, z: 0}
 --- !u!114 &4864612340359029679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2413,6 +2413,12 @@ MonoBehaviour:
     TriggerNameHash: 1748754976
     TransitionIndex: 2
   - Layer: 0
+    OriginatingState: 765711723
+    DestinationState: -1481439722
+    TransitionDuration: 0.03
+    TriggerNameHash: 125937960
+    TransitionIndex: 3
+  - Layer: 0
     OriginatingState: 2081823275
     DestinationState: 765711723
     TransitionDuration: 0.05
@@ -2430,6 +2436,12 @@ MonoBehaviour:
     TransitionDuration: 0.05
     TriggerNameHash: 1748754976
     TransitionIndex: 2
+  - Layer: 0
+    OriginatingState: 2081823275
+    DestinationState: -1481439722
+    TransitionDuration: 0.03
+    TriggerNameHash: 125937960
+    TransitionIndex: 3
   - Layer: 0
     OriginatingState: -1050677645
     DestinationState: 765711723
@@ -2449,6 +2461,12 @@ MonoBehaviour:
     TriggerNameHash: 1748754976
     TransitionIndex: 2
   - Layer: 0
+    OriginatingState: -1050677645
+    DestinationState: -1481439722
+    TransitionDuration: 0.03
+    TriggerNameHash: 125937960
+    TransitionIndex: 3
+  - Layer: 0
     OriginatingState: 1748754976
     DestinationState: 2081823275
     TransitionDuration: 0.05
@@ -2457,7 +2475,7 @@ MonoBehaviour:
   - Layer: 0
     OriginatingState: 1748754976
     DestinationState: -1050677645
-    TransitionDuration: 0.05
+    TransitionDuration: 0.03
     TriggerNameHash: -866303334
     TransitionIndex: 1
   - Layer: 0
@@ -2466,6 +2484,36 @@ MonoBehaviour:
     TransitionDuration: 0.05
     TriggerNameHash: 765711723
     TransitionIndex: 2
+  - Layer: 0
+    OriginatingState: 1748754976
+    DestinationState: -1481439722
+    TransitionDuration: 0.05
+    TriggerNameHash: 125937960
+    TransitionIndex: 3
+  - Layer: 0
+    OriginatingState: -1481439722
+    DestinationState: 765711723
+    TransitionDuration: 0
+    TriggerNameHash: 765711723
+    TransitionIndex: 0
+  - Layer: 0
+    OriginatingState: -1481439722
+    DestinationState: 1748754976
+    TransitionDuration: 0
+    TriggerNameHash: 1748754976
+    TransitionIndex: 1
+  - Layer: 0
+    OriginatingState: -1481439722
+    DestinationState: 2081823275
+    TransitionDuration: 0
+    TriggerNameHash: 2081823275
+    TransitionIndex: 2
+  - Layer: 0
+    OriginatingState: -1481439722
+    DestinationState: -1050677645
+    TransitionDuration: 0
+    TriggerNameHash: -866303334
+    TransitionIndex: 3
   m_Animator: {fileID: 7777052005302044203}
 --- !u!114 &4213622012127099515
 MonoBehaviour:
@@ -2485,9 +2533,9 @@ MonoBehaviour:
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -2508,6 +2556,8 @@ MonoBehaviour:
   walkSpeed: 3
   runSpeedOffset: -1
   lateralSpeed: -1
+  jumpSpeed: 7
+  gravity: 20
   defaultInitialPositionOnPlane: {x: 0, y: 0}
   networkPlayerState:
     m_InternalValue: 0
