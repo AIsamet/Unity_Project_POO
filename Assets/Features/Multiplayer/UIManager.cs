@@ -15,6 +15,12 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     private Button startClientButton;
 
+    [SerializeField] 
+    private GameObject gameTypeMenu;
+
+    [SerializeField] 
+    private GameObject networkVariable;
+
     [SerializeField]
     private TextMeshProUGUI playersInGameText;
 
@@ -42,7 +48,13 @@ public class UIManager : Singleton<UIManager>
         startServerButton?.onClick.AddListener(() =>
         {
             if (NetworkManager.Singleton.StartServer())
+            {
                 Logger.Instance.LogInfo("Server started...");
+                gameTypeMenu.SetActive(false);
+                Vector3 nouvellePosition = networkVariable.transform.position;
+                nouvellePosition.x = 1320f;
+                networkVariable.transform.position = nouvellePosition;
+            }
             else
                 Logger.Instance.LogInfo("Unable to start server...");
         });
@@ -53,11 +65,18 @@ public class UIManager : Singleton<UIManager>
             // this allows the UnityMultiplayer and UnityMultiplayerRelay scene to work with and without
             // relay features - if the Unity transport is found and is relay protocol then we redirect all the 
             // traffic through the relay, else it just uses a LAN type (UNET) communication.
-            if (RelayManager.Instance.IsRelayEnabled) 
+            if (RelayManager.Instance.IsRelayEnabled)
                 await RelayManager.Instance.SetupRelay();
 
-            if (NetworkManager.Singleton.StartHost())
+            if (NetworkManager.Singleton.StartHost()) 
+            { 
                 Logger.Instance.LogInfo("Host started...");
+                gameTypeMenu.SetActive(false);
+                Vector3 nouvellePosition = networkVariable.transform.position;
+                nouvellePosition.x = 1320f;
+                networkVariable.transform.position = nouvellePosition;
+
+            }
             else
                 Logger.Instance.LogInfo("Unable to start host...");
         });
@@ -68,8 +87,15 @@ public class UIManager : Singleton<UIManager>
             if (RelayManager.Instance.IsRelayEnabled && !string.IsNullOrEmpty(joinCodeInput.text))
                 await RelayManager.Instance.JoinRelay(joinCodeInput.text);
 
-            if(NetworkManager.Singleton.StartClient())
+            if (NetworkManager.Singleton.StartClient())
+            {
                 Logger.Instance.LogInfo("Client started...");
+                gameTypeMenu.SetActive(false);
+                Vector3 nouvellePosition = networkVariable.transform.position;
+                nouvellePosition.x = 1320f;
+                networkVariable.transform.position = nouvellePosition;
+
+            }
             else
                 Logger.Instance.LogInfo("Unable to start client...");
         });
