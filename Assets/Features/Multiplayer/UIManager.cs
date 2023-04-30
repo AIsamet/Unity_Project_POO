@@ -18,9 +18,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] 
     private GameObject gameTypeMenu;
 
-    [SerializeField] 
-    private GameObject networkVariable;
-
     [SerializeField]
     private TextMeshProUGUI playersInGameText;
 
@@ -51,9 +48,6 @@ public class UIManager : Singleton<UIManager>
             {
                 Logger.Instance.LogInfo("Server started...");
                 gameTypeMenu.SetActive(false);
-                Vector3 nouvellePosition = networkVariable.transform.position;
-                nouvellePosition.x = 1320f;
-                networkVariable.transform.position = nouvellePosition;
             }
             else
                 Logger.Instance.LogInfo("Unable to start server...");
@@ -72,9 +66,6 @@ public class UIManager : Singleton<UIManager>
             { 
                 Logger.Instance.LogInfo("Host started...");
                 gameTypeMenu.SetActive(false);
-                Vector3 nouvellePosition = networkVariable.transform.position;
-                nouvellePosition.x = 1320f;
-                networkVariable.transform.position = nouvellePosition;
 
             }
             else
@@ -91,10 +82,6 @@ public class UIManager : Singleton<UIManager>
             {
                 Logger.Instance.LogInfo("Client started...");
                 gameTypeMenu.SetActive(false);
-                Vector3 nouvellePosition = networkVariable.transform.position;
-                nouvellePosition.x = 1320f;
-                networkVariable.transform.position = nouvellePosition;
-
             }
             else
                 Logger.Instance.LogInfo("Unable to start client...");
