@@ -97,3 +97,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# windows ?
+
+./ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json
+./ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json.meta
