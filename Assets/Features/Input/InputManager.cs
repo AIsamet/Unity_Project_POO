@@ -11,6 +11,8 @@ public class InputManager : MonoBehaviour
 	private PlayerMotor playerMotor;
 	private PlayerLook playerLook;
 
+	private Gun gun;
+
 	void Awake()
 	{
 		playerInput = new PlayerInput();
@@ -25,8 +27,8 @@ public class InputManager : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		 // tell the motor to move the player using the value from movement action
-		 playerMotor.ProcessMovement(onFoot.Movement.ReadValue<Vector2>());
+		// tell the motor to move the player using the value from movement action
+		playerMotor.ProcessMovement(onFoot.Movement.ReadValue<Vector2>());
 	}
 
 	void LateUpdate()
